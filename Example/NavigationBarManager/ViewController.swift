@@ -7,12 +7,47 @@
 //
 
 import UIKit
+import NavigationBarManager
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
+    var refreshControl: UIRefreshControl!
+    var navBarManager: NavigationBarManager!
+    
+    @IBOutlet weak var collectionView: UICollectionView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        navBarManager = NavigationBarManager(viewController: self, scrollView: collectionView)
+        
+        refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(didPullToRefresh(sender:)), for: .valueChanged)
+        
+        if #available(iOS 10.0, *) {
+            collectionView.refreshControl = refreshControl
+        } else {
+            // Fallback on earlier versions
+            collectionView.addSubview(refreshControl)
+        }
+        
+        
+        let rect = CGRect(x: 0, y: 0, width: view.bounds.size.width, height: 100)
+        let redView = UIView(frame: rect)
+        redView.backgroundColor = UIColor.red
+        navBarManager.extensionView = redView
+    }
+    
+    func didPullToRefresh(sender: AnyObject) {
+        longRunningProcess()
+    }
+    
+    private func longRunningProcess() {
+        DispatchQueue.global().asyncAfter(deadline: DispatchTime.now() + 2, execute: {
+            DispatchQueue.main.async {
+                self.refreshControl.endRefreshing()
+            }
+        })
     }
 
     override func didReceiveMemoryWarning() {
@@ -20,5 +55,39 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    
+    // MARK: - Collection View
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 6
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
+        
+        return cell
+    }
+    
+    // MARK: - Scroll View
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        navBarManager.handleScrollViewDidScroll(scrollView: scrollView)
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if decelerate == true {
+            // have inertia, handle in scrollViewDidEndDecelerating
+            return
+        }
+        
+        navBarManager.handleScrollViewDidEnd(scrollView: scrollView)
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        // stop
+        navBarManager.handleScrollViewDidEnd(scrollView: scrollView)
+    }
 }
 

@@ -1,0 +1,23 @@
+PODS:
+  - FBSnapshotTestCase (2.1.4):
+    - FBSnapshotTestCase/SwiftSupport (= 2.1.4)
+  - FBSnapshotTestCase/Core (2.1.4)
+  - FBSnapshotTestCase/SwiftSupport (2.1.4):
+    - FBSnapshotTestCase/Core
+  - NavigationBarManager (0.1.0)
+
+DEPENDENCIES:
+  - FBSnapshotTestCase
+  - NavigationBarManager (from `../`)
+
+EXTERNAL SOURCES:
+  NavigationBarManager:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  FBSnapshotTestCase: 094f9f314decbabe373b87cc339bea235a63e07a
+  NavigationBarManager: f71aa3749e4249e7d1db2fd94b1e86104ff2d321
+
+PODFILE CHECKSUM: c17ab63db52191a49ab5b5cb863139da36702980
+
+COCOAPODS: 1.2.0.beta.1
