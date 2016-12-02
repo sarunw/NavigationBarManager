@@ -79,12 +79,9 @@ public class NavigationBarManager {
         let yOffset = scrollView.contentOffset.y + scrollView.contentInset.top
         
         let height = navigationController.navigationBar.bounds.size.height + statusBarHeight()
-        print("xxx \(height)")
-        let threshold = height
         
         // Move only when extension view is go behind nav
         let extensionViewHeight = (extensionView?.bounds.size.height ?? 0)
-        let navOffset = max(0, yOffset - extensionViewHeight)
         
         let sumHeight = extensionViewHeight + height
         
@@ -96,11 +93,8 @@ public class NavigationBarManager {
             }, completion: { (finished) in
                 
             })
-            
-            print("go back")
         } else if yOffset < sumHeight {
-            
-            print("go go")
+
             UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: [], animations: {
                 scrollView.contentOffset = CGPoint(x: 0, y: -scrollView.contentInset.top + sumHeight)
                 self.handleScrolling(scrollView: scrollView)
@@ -126,9 +120,7 @@ public class NavigationBarManager {
             return
         }
         
-        
         let yOffset = scrollView.contentOffset.y + scrollView.contentInset.top
-        print("offset \(yOffset)")
         
         if let extensionView = extensionView {
             var offset: CGFloat = 0
