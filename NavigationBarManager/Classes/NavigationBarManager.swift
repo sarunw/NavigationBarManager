@@ -117,6 +117,16 @@ public class NavigationBarManager {
     /// - Parameter scrollView: <#scrollView description#>
     private func handleScrolling(scrollView: UIScrollView) {
         guard shouldHandleHiding() else {
+            
+            // Go back to original
+            UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: [], animations: {
+                self.navigationController.navigationBar.transform = CGAffineTransform.identity
+                self.extensionView?.transform = CGAffineTransform.identity
+                self.navigationController.navigationBar.sw_setContenAlpha(1)
+            }, completion: { (finished) in
+                
+            })
+            
             return
         }
         

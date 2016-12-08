@@ -4,7 +4,6 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -18,11 +17,11 @@
                         <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="8Oa-kH-YSl">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="QC8-pr-ADL">
                                     <size key="itemSize" width="309" height="86"/>
@@ -55,7 +54,13 @@
                             <constraint firstAttribute="trailing" secondItem="8Oa-kH-YSl" secondAttribute="trailing" id="l3h-jt-OOH"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Title" id="99b-Gk-Tlu"/>
+                    <navigationItem key="navigationItem" title="Title" id="99b-Gk-Tlu">
+                        <barButtonItem key="rightBarButtonItem" title="Load" id="QTn-5t-NLy">
+                            <connections>
+                                <action selector="didTapLoad:" destination="vXZ-lx-hvc" id="TZw-wb-ZCk"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="8Oa-kH-YSl" id="0OK-FT-9P0"/>
                     </connections>
@@ -68,7 +73,7 @@
         <scene sceneID="IYU-N1-aZ9">
             <objects>
                 <navigationController id="7Xf-PW-5q9" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" translucent="NO" id="0ed-VT-Hs0">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" translucent="NO" id="0ed-VT-Hs0">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.0156866461" green="0.74117648599999997" blue="0.25490194560000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -101,6 +106,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="iLv-uo-QAF"/>
+        <segue reference="POm-vZ-qYf"/>
     </inferredMetricsTieBreakers>
 </document>

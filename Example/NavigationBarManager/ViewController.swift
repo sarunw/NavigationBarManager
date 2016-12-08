@@ -57,18 +57,37 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
 
     
     // MARK: - Collection View
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        clear()
+    }
+    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 6
+        return numberOfItems
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
         
         return cell
+    }
+    
+    private var numberOfItems = 10
+    @IBAction func didTapLoad(_ sender: Any) {
+        load()
+    }
+    
+    private func clear() {
+        numberOfItems = 0
+        collectionView.reloadData()
+    }
+    
+    private func load() {
+        numberOfItems = 10
+        collectionView.reloadData()
     }
     
     // MARK: - Scroll View
