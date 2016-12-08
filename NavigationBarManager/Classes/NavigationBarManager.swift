@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class NavigationBarManager {
+public class NavigationBarManager: NSObject {
     public var scrollView: UIScrollView
     public var navigationController: UINavigationController
     public var viewController: UIViewController
@@ -59,14 +59,47 @@ public class NavigationBarManager {
         guard let navigationController = viewController.navigationController else {
             return nil
         }
-    
+        
+        
         self.viewController = viewController
         self.navigationController = navigationController
         self.scrollView = scrollView
         
         viewController.extendedLayoutIncludesOpaqueBars = true
+        
+        super.init()
+        
+        scrollView.addObserver(self, forKeyPath: "contentSize", options: .new, context: &kvoContext)
     }
     
+    private var kvoContext: UInt8 = 1
+    public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        
+        if context == &kvoContext {
+            if keyPath == "contentSize" {
+                contentSizeDidChange(scrollView: object as! UIScrollView)
+            }
+        }
+    }
+    
+    private func contentSizeDidChange(scrollView: UIScrollView) {
+        if shouldHandleHiding() {
+            return
+        }
+        
+        // Go back to original
+        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: [], animations: {
+            self.navigationController.navigationBar.transform = CGAffineTransform.identity
+            self.extensionView?.transform = CGAffineTransform.identity
+            self.navigationController.navigationBar.sw_setContenAlpha(1)
+        }, completion: { (finished) in
+            
+        })
+    }
+    
+    deinit {
+        removeObserver(self, forKeyPath: "contentSize")
+    }
     
     /// This method will add snap behavior
     ///
@@ -117,16 +150,6 @@ public class NavigationBarManager {
     /// - Parameter scrollView: <#scrollView description#>
     private func handleScrolling(scrollView: UIScrollView) {
         guard shouldHandleHiding() else {
-            
-            // Go back to original
-            UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: [], animations: {
-                self.navigationController.navigationBar.transform = CGAffineTransform.identity
-                self.extensionView?.transform = CGAffineTransform.identity
-                self.navigationController.navigationBar.sw_setContenAlpha(1)
-            }, completion: { (finished) in
-                
-            })
-            
             return
         }
         
